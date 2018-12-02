@@ -3,48 +3,69 @@ string2 = "abskksba"
 string3 = "abyyuhughue"
 string4 = "jhhhuuhhhj"
 string5 = "jkhhhkj"
+string6 = "Yo banana boy"
+string7 = "UFO tofu"
 
-# We want to find palindrom which characters are not duplicate
+#We want to find palindrom
+#Bonus  - Also characters should not be duplicate
 
 def find_palindrome(string)
-  #if string is odd, it is not find_palindrome
-  if string.length.even?
+  #\s, space and comma. \! exclamation mark. \- hyphen
+  #replace to "" meaning no space, comma, ! and hypen
+  str = string.gsub(/[\s,\!\-]/ ,"").downcase
 
-  #if even, devide 2 and reverse the second part and compare if the first and second part has the same letter/order
-    first_part_length = string.length / 2
-    second_part_length = string.length
-    #get the first part letters. slice(index,length)
-    first_part_str = string.slice(0,first_part_length)
-    #get_second_part
-    second_part_str = string.slice(first_part_length,second_part_length)
+  #divide string to two and compare first and second half of string.
+  #preperation
+    median = str.length / 2
+    #get the first half of string. slice(index,length)
+    first_half_str = str.slice(0,median)
+    #get second half
+    second_half_str = str.slice(median, str.length)
+    revised_second_half_str = second_half_str.reverse
 
-    revised_second_part_str = second_part_str.reverse
+    #change strig to array and split to charactar to compare if there are duplicate charactar (we use uniq to get unique charactar)
+    arr1 = first_half_str.split("").to_a
+    arr2 = first_half_str.split("").to_a.uniq
 
-    #change strig to array to compare if there are duplicate (we use uniq)
-    arr1 = first_part_str.split("").to_a
-    arr2 = first_part_str.split("").to_a.uniq
+    #check if first_half_str & second_half_str have same charactor.
+    #if charactar is duplicate, output error message
 
-    #if letters have more than two charactor, output error message
-
-    if first_part_str == revised_second_part_str
+  #when string.length is even number
+  if str.length.even?
+    if first_half_str == revised_second_half_str
         if arr1 != arr2
           puts "#{string} has more than two same charactors!"
         else
           puts "Yes, #{string} is a palindrome."
         end
 
-    #check if first_part_str & second_part_str have same charactor and retrun string
 
     #if the above is incorrect, output error message
-    elsif first_part_str != revised_second_part_str
+    elsif first_half_str != revised_second_half_str
       puts "#{string} is not palindrome!"
     end
 
-  #output error message if string is not palindrome
-  else
-    puts "#{string} is not palindrome!"
+  #when string is odd. *if odd, string.length is rounddown
+  elsif str.length.odd?
+    #get last charactar  *str[start, length]. -1 means last charactar
+    last_char = revised_second_half_str[-1, 1]
+    #remove last charactar
+    second = revised_second_half_str.chomp(last_char)
+    #now compare if first half and new second half has same charactar
+    if first_half_str == second
+        if arr1 != arr2
+          puts "#{string} has more than two same charactors!"
+        else
+          puts "Yes, #{string} is a palindrome."
+        end
+
+    #if the above is incorrect, output error message
+    elsif first_half_str != second
+      puts "#{string} is not palindrome!"
+    end
+
   end
 
 end
 
-find_palindrome(string5)
+find_palindrome(string)
